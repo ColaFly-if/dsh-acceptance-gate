@@ -1,6 +1,11 @@
 {
   "name": "dsh-acceptance-gate",
-  "version": "0.4.0",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColaFly-if/dsh-acceptance-gate.git"
+  },
+  "homepage": "https://github.com/ColaFly-if/dsh-acceptance-gate#readme",
   "description": "Acceptance gate for DeepSeek Harness: two test tracks (code + interactive), plugin-run evidence, quality gate, and a turn watchdog that keeps the agent working until every item passes.",
   "type": "module",
   "main": "lib/index.js",

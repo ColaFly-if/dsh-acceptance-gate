@@ -1,32 +1,30 @@
 # Changelog
 
-## 0.4.0
+## 0.1.1（首个公开版本）
 
-### 新增：两轨测试（代码轨 + 交互轨）
+首个公开发布。此前 0.1.0 – 0.4.0 为内部迭代，能力已并入本版本。
 
-- 新增 `auto.kind = "ui"`：交互轨。跑真实人流程（打开页面→点击/输入→断言界面出现预期结果），并强制要求 `artifact`（截图/录像/日志路径），产物缺失或为空一律判 fail。
-- `accept_gate op=open` 新增 `interactive: true|false`：申报 `true` 时若没有一条 `ui` 条目，整张单被质量守门拒收；申报 `false` 只跑代码轨。
-- `inspectTracks()`：统一校验两轨完整性，并给出「只有交互轨缺边界覆盖」等提醒。
-- 状态与报告新增轨道统计：`轨道：代码 x/y　交互 a/b`。
-- 协议提示词新增「两轨测试」章节：有交互就两轨都做，没交互只做代码轨。
-- smoke 新增 4 条断言：涉及交互却没交互轨被拒、交互轨登记成功、状态显示两轨、交互轨缺 artifact 被拒。
-## 0.3.1
+### 两轨测试
 
-- Tests and scanners resolve the plugin root from their own location, so `npm test` works from any working directory.
-- Add `CONTRIBUTING.md`, `check:publish` / `check:secrets` scripts.
+- 代码轨：`auto.kind` = `shell` / `http` / `file`。
+- 交互轨：`auto.kind` = `ui`，真跑人流程（打开页面 → 点击/输入 → 断言界面出现预期结果），必须给 `artifact`（截图/录像/日志），缺失或 0 字节判 fail。
+- `accept_gate op=open` 的 `interactive: true|false`：申报 `true` 却没交交互轨，整张单被质量守门拒收；申报 `false` 只跑代码轨。
+- `inspectTracks()` 校验两轨完整性，并提醒「只有交互轨、缺边界覆盖」。
+- 状态与报告输出 `轨道：代码 x/y　交互 a/b`。
 
-## 0.3.0
+### 证据
 
-- Add `accept_secrets`: secret and sensitive-file scanning (`scan` / `purge`).
-- Scrub absolute paths, home directories, temp dirs and host names before writing reports (Markdown, JSON, HTML).
-- Remove hard-coded install paths from the shell runner.
-- Add MIT license, bilingual README, package metadata, publish check.
+- `accept_run` 执行器：跑 check，产出 exit code、输出、sha256、耗时；并发、失败重试、与基线的 Δ 比对。
+- 质量守门：空话 requirement、跑不出来的 check、空验收单，一律拒收。
+- 回合闸门（watchdog）：欠账未清零时把 agent 拽回来继续。
+- 报告：Markdown / JSON / HTML，落盘前清洗绝对路径、家目录、临时目录、主机名。
 
-## 0.2.0
+### 安全与运维
 
-- `accept_run` executor: shell / http / file checks, SHA-256 evidence, concurrency, flake retry, delta-vs-baseline.
-- Quality gate, turn watchdog, impact scan, KPI, Markdown/JSON/HTML reports.
+- `accept_secrets`：密钥与敏感文件扫描（`scan` / `purge`）。
+- 影响面采集（`op=scope`）、KPI（`op=stats`）、历史（`op=history`）。
+- MIT 许可、中英双 README、`check:publish` / `check:secrets`。
 
-## 0.1.0
+### 测试
 
-- First version: ledger, manual verdicts, prompt section.
+- `tests/smoke.mjs`：35 条断言，其中 4 条专测两轨守门（涉及交互却没交互轨被拒、交互轨登记成功、状态显示两轨、交互轨缺 artifact 被拒）。
