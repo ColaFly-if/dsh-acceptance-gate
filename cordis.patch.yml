@@ -1,0 +1,34 @@
+# dsh-acceptance-gate bundle patch
+#
+# 验收闭环：修复/新需求开工即登记验收单，收尾前必须逐条实测通过。
+# 两轨测试（代码轨 shell/http/file + 交互轨 ui）与质量守门都在本插件内。
+
+- insert:
+    - id: dsh-acceptance-gate
+      name: dsh-acceptance-gate
+      inject: [ systemPrompt, tools ]
+      config:
+        enabled: true
+        sectionOrder: 70
+        sectionName: acceptance-gate
+        # —— 质量守门
+        strictMode: true
+        strictPass: true
+        allowManualPass: false
+        requireAuto: false
+        # —— 自动执行
+        autoRunVerify: true
+        autoClose: true
+        writeReportOnClose: true
+        kpi: true
+        shellTimeoutMs: 120000
+        httpTimeoutMs: 30000
+        maxOutputChars: 8000
+        runConcurrency: 4
+        retryOnFail: 1
+        # —— 回合闸门
+        watchdog: true
+        watchdogMax: 3
+        watchdogCooldownMs: 15000
+        watchdogDelayMs: 400
+        watchdogFreshMs: 600000

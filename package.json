@@ -1,0 +1,45 @@
+{
+  "name": "dsh-acceptance-gate",
+  "version": "0.4.0",
+  "description": "Acceptance gate for DeepSeek Harness: two test tracks (code + interactive), plugin-run evidence, quality gate, and a turn watchdog that keeps the agent working until every item passes.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "lib/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "test": "node tests/smoke.mjs",
+    "check:publish": "node tests/publish-check.mjs .",
+    "check:secrets": "node tests/scan-once.mjs"
+  },
+  "keywords": [
+    "deepseek",
+    "dsh",
+    "dsh-plugin",
+    "acceptance-testing",
+    "verification",
+    "agent-reliability",
+    "evidence",
+    "qa"
+  ],
+  "license": "MIT",
+  "author": "YG",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {},
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
